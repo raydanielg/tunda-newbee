@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   bool _obscure = true;
-  String? _error;
 
   @override
   void dispose() {
@@ -26,16 +25,36 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _showErrorToast(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white, size: 20),
+              const SizedBox(width: 10),
+              Expanded(child: Text(message, style: const TextStyle(fontSize: 14)));
+            ],
+          ),
+          backgroundColor: const Color(0xFFDC2626),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+          duration: const Duration(seconds: 4),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _error = null);
 
     final provider = context.read<AuthProvider>();
     final err = await provider.login(_emailCtrl.text, _passwordCtrl.text);
 
     if (!mounted) return;
     if (err != null) {
-      setState(() => _error = err);
+      _showErrorToast(err);
     } else {
       Navigator.pushReplacementNamed(context, AppRoutes.home);
     }
@@ -169,30 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        if (_error != null) ...[
-                          const SizedBox(height: 16),
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(14),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.red.withOpacity(0.3)),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    _error!,
-                                    style: const TextStyle(fontSize: 13, color: Colors.redAccent),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                         const SizedBox(height: 28),
                         SizedBox(
                           width: double.infinity,
