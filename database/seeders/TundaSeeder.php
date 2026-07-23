@@ -361,7 +361,7 @@ class TundaSeeder extends Seeder
                     'type' => 'credit',
                     'amount' => $wallet->balance,
                     'description' => 'Wallet top-up',
-                    'reason' => 'wallet_topup',
+                    'reason' => 'topup',
                 ]);
             }
 
