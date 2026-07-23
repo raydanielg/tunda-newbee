@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/discover_provider.dart';
-import '../../../models/app_models.dart';
 import '../widgets/profile_card.dart';
 
 class DiscoverScreen extends StatefulWidget {
@@ -95,7 +94,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         children: [
           _actionButton(
             icon: Icons.close,
-            color: AppColors.red400,
+            color: AppColors.red600,
             size: 28,
             onTap: () => provider.swipe(profile.id, 'dislike'),
           ),
