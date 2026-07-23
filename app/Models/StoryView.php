@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class StoryView extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = ['story_id', 'viewer_id', 'viewed_at'];
 
     protected function casts(): array
