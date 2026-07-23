@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import '../services/api_client.dart';
-import '../services/storage_service.dart';
 
 class DiscoverService {
   final Dio _dio = ApiClient().dio;
