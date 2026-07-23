@@ -12,6 +12,7 @@ class UserProfile {
   final bool verified;
   final bool online;
   final String? avatar;
+  final String? gender;
 
   UserProfile({
     required this.id,
@@ -27,7 +28,27 @@ class UserProfile {
     this.verified = false,
     this.online = false,
     this.avatar,
+    this.gender,
   });
+
+  factory UserProfile.fromJson(Map<String, dynamic> j) {
+    return UserProfile(
+      id: j['id']?.toString() ?? '',
+      name: j['name'] ?? '',
+      age: j['age'] ?? 0,
+      bio: j['bio'] ?? '',
+      occupation: j['occupation'] ?? '',
+      education: j['education'] ?? '',
+      region: j['region'] ?? '',
+      distance: (j['distance'] ?? 0).toDouble(),
+      interests: (j['interests'] as List?)?.map((e) => e.toString()).toList() ?? [],
+      relationshipGoal: j['relationship_goal'] ?? 'Dating',
+      verified: j['verified'] ?? false,
+      online: j['online'] ?? false,
+      avatar: j['avatar'],
+      gender: j['gender'],
+    );
+  }
 }
 
 class ChatMessage {
@@ -46,6 +67,17 @@ class ChatMessage {
     required this.isMe,
     this.read = false,
   });
+
+  factory ChatMessage.fromJson(Map<String, dynamic> j) {
+    return ChatMessage(
+      id: j['id']?.toString() ?? '',
+      senderId: j['sender_id']?.toString() ?? '',
+      text: j['text'] ?? '',
+      time: j['time'] != null ? DateTime.parse(j['time']) : DateTime.now(),
+      isMe: j['is_me'] ?? false,
+      read: j['read'] ?? false,
+    );
+  }
 }
 
 class Match {
@@ -54,6 +86,7 @@ class Match {
   final String? lastMessage;
   final DateTime? lastMessageTime;
   final int unreadCount;
+  final String? conversationId;
 
   Match({
     required this.user,
@@ -61,7 +94,19 @@ class Match {
     this.lastMessage,
     this.lastMessageTime,
     this.unreadCount = 0,
+    this.conversationId,
   });
+
+  factory Match.fromJson(Map<String, dynamic> j) {
+    return Match(
+      user: UserProfile.fromJson(j['user'] as Map<String, dynamic>),
+      matchedAt: j['matched_at'] != null ? DateTime.parse(j['matched_at']) : DateTime.now(),
+      lastMessage: j['last_message'],
+      lastMessageTime: j['last_message_time'] != null ? DateTime.parse(j['last_message_time']) : null,
+      unreadCount: j['unread_count'] ?? 0,
+      conversationId: j['conversation_id']?.toString(),
+    );
+  }
 }
 
 class AppNotification {
@@ -80,4 +125,15 @@ class AppNotification {
     required this.time,
     this.read = false,
   });
+
+  factory AppNotification.fromJson(Map<String, dynamic> j) {
+    return AppNotification(
+      id: j['id']?.toString() ?? '',
+      type: j['type'] ?? 'system',
+      title: j['title'] ?? '',
+      body: j['body'] ?? '',
+      time: j['time'] != null ? DateTime.parse(j['time']) : DateTime.now(),
+      read: j['read'] ?? false,
+    );
+  }
 }
