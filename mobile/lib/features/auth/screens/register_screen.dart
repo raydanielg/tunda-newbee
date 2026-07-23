@@ -21,7 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmCtrl = TextEditingController();
   bool _obscure = true;
   bool _confirmObscure = true;
-  String? _error;
   String? _gender;
   String? _region;
 
@@ -37,13 +36,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  void _showErrorToast(String message) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: Colors.white, size: 20),
+              const SizedBox(width: 10),
+              Expanded(child: Text(message, style: const TextStyle(fontSize: 14))),
+            ],
+          ),
+          backgroundColor: const Color(0xFFDC2626),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+          duration: const Duration(seconds: 4),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_passwordCtrl.text != _confirmCtrl.text) {
-      setState(() => _error = 'Passwords do not match');
+      _showErrorToast('Passwords do not match');
       return;
     }
-    setState(() => _error = null);
 
     final provider = context.read<AuthProvider>();
     final err = await provider.register(
@@ -55,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (!mounted) return;
     if (err != null) {
-      setState(() => _error = err);
+      _showErrorToast(err);
     } else {
       Navigator.pushReplacementNamed(context, AppRoutes.home);
     }
@@ -277,25 +296,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         validator: (v) => v == null || v.isEmpty ? 'Please confirm your password' : null,
                       ),
-                      if (_error != null) ...[
-                        const SizedBox(height: 16),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(14),
-                          decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.red.withOpacity(0.3)),
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
-                              const SizedBox(width: 10),
-                              Expanded(child: Text(_error!, style: const TextStyle(fontSize: 13, color: Colors.redAccent))),
-                            ],
-                          ),
-                        ),
-                      ],
                       const SizedBox(height: 28),
                       SizedBox(
                         width: double.infinity,
