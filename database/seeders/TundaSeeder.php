@@ -266,14 +266,22 @@ class TundaSeeder extends Seeder
 
         // Add some one-way likes (no match)
         $allUsers = User::where('role', 'user')->get();
-        for ($i = 0; $i < 15; $i++) {
+        $usedPairs = Swipe::all()->map(fn($s) => "{$s->swiper_id}-{$s->swiped_id}")->toArray();
+        $attempts = 0;
+        $added = 0;
+        while ($added < 15 && $attempts < 100) {
+            $attempts++;
             $swiper = $allUsers->random();
             $swiped = $allUsers->where('id', '!=', $swiper->id)->random();
-            Swipe::firstOrCreate([
+            $key = "{$swiper->id}-{$swiped->id}";
+            if (in_array($key, $usedPairs)) continue;
+            $usedPairs[] = $key;
+            Swipe::create([
                 'swiper_id' => $swiper->id,
                 'swiped_id' => $swiped->id,
                 'action' => collect(['like', 'dislike', 'super_like'])->random(),
             ]);
+            $added++;
         }
     }
 
