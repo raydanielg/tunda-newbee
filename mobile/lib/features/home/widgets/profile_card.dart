@@ -7,6 +7,7 @@ class ProfileCard extends StatelessWidget {
   final VoidCallback onLike;
   final VoidCallback onDislike;
   final VoidCallback onSuperLike;
+  final bool isTop;
 
   const ProfileCard({
     super.key,
@@ -14,6 +15,7 @@ class ProfileCard extends StatelessWidget {
     required this.onLike,
     required this.onDislike,
     required this.onSuperLike,
+    this.isTop = true,
   });
 
   @override
