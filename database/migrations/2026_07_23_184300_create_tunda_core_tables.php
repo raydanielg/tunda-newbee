@@ -149,6 +149,7 @@ return new class extends Migration
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
             $table->enum('status', ['active', 'expired', 'cancelled'])->default('active');
+            $table->boolean('auto_renew')->default(false);
             $table->timestamps();
         });
 

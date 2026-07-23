@@ -8,7 +8,7 @@ class PremiumSubscription extends Model
 {
     protected $fillable = [
         'user_id', 'plan', 'amount', 'currency',
-        'starts_at', 'ends_at', 'status',
+        'starts_at', 'ends_at', 'status', 'auto_renew',
     ];
 
     protected function casts(): array
@@ -16,6 +16,7 @@ class PremiumSubscription extends Model
         return [
             'starts_at' => 'datetime',
             'ends_at' => 'datetime',
+            'auto_renew' => 'boolean',
         ];
     }
 
