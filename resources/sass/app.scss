@@ -1,0 +1,10 @@
+// Bootstrap with custom variable overrides
+@use 'bootstrap/scss/bootstrap' with (
+    $body-bg: #f8fafc,
+    $font-family-sans-serif: ('Nunito', sans-serif),
+    $font-size-base: 0.9rem,
+    $line-height-base: 1.6
+);
+
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
