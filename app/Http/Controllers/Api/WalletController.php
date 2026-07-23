@@ -97,7 +97,7 @@ class WalletController extends Controller
             'type' => 'credit',
             'amount' => $request->amount,
             'description' => 'Wallet top-up via ' . $request->method,
-            'reason' => 'wallet_topup',
+            'reason' => 'topup',
         ]);
 
         return response()->json([
