@@ -498,8 +498,8 @@ class TundaSeeder extends Seeder
                 'caller_id' => $caller->id,
                 'receiver_id' => $receiver->id,
                 'type' => collect(['voice', 'video'])->random(),
-                'status' => collect(['completed', 'missed', 'declined'])->random(),
-                'duration' => rand(10, 600),
+                'status' => collect(['ended', 'missed', 'declined'])->random(),
+                'duration_seconds' => rand(10, 600),
                 'started_at' => now()->subHours(rand(1, 48)),
                 'ended_at' => now()->subHours(rand(0, 47)),
             ]);
