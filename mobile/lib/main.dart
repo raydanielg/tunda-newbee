@@ -4,6 +4,11 @@ import 'core/theme/app_theme.dart';
 import 'core/routes/app_routes.dart';
 import 'core/services/storage_service.dart';
 import 'core/providers/auth_provider.dart';
+import 'core/providers/discover_provider.dart';
+import 'core/providers/match_provider.dart';
+import 'core/providers/message_provider.dart';
+import 'core/providers/notification_provider.dart';
+import 'core/providers/profile_provider.dart';
 import 'features/onboarding/screens/splash_screen.dart';
 import 'features/onboarding/screens/welcome_screen.dart';
 import 'features/auth/screens/login_screen.dart';
@@ -25,6 +30,11 @@ class TundaApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => DiscoverProvider()),
+        ChangeNotifierProvider(create: (_) => MatchProvider()),
+        ChangeNotifierProvider(create: (_) => MessageProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ],
       child: MaterialApp(
         title: 'Tunda',
