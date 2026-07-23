@@ -19,12 +19,8 @@ class AuthService {
       await StorageService.saveToken(data['token']);
       return data;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 422) {
-        final errors = e.response?.data['errors'] ?? {};
-        final msg = errors.values.first?.first ?? 'Invalid credentials';
-        throw Exception(msg);
-      }
-      throw Exception(e.response?.data['message'] ?? 'Login failed');
+      final msg = e.message ?? 'Login failed';
+      throw Exception(msg);
     }
   }
 
@@ -46,12 +42,8 @@ class AuthService {
       await StorageService.saveToken(data['token']);
       return data;
     } on DioException catch (e) {
-      if (e.response?.statusCode == 422) {
-        final errors = e.response?.data['errors'] ?? {};
-        final msg = errors.values.first?.first ?? 'Validation failed';
-        throw Exception(msg);
-      }
-      throw Exception(e.response?.data['message'] ?? 'Registration failed');
+      final msg = e.message ?? 'Registration failed';
+      throw Exception(msg);
     }
   }
 
@@ -59,12 +51,8 @@ class AuthService {
     try {
       await _dio.post('/auth/forgot-password', data: {'email': email});
     } on DioException catch (e) {
-      if (e.response?.statusCode == 422) {
-        final errors = e.response?.data['errors'] ?? {};
-        final msg = errors.values.first?.first ?? 'Invalid email';
-        throw Exception(msg);
-      }
-      throw Exception(e.response?.data['message'] ?? 'Request failed');
+      final msg = e.message ?? 'Request failed';
+      throw Exception(msg);
     }
   }
 
@@ -73,7 +61,7 @@ class AuthService {
       final res = await _dio.get('/auth/user');
       return res.data['data'];
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message'] ?? 'Failed to fetch user');
+      throw Exception(e.message ?? 'Failed to fetch user');
     }
   }
 
